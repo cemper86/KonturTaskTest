@@ -32,19 +32,17 @@ import ru.stairenx.konturtasktest.server.ParserJSON;
 
 public class MainFragment extends Fragment {
 
-    private static SearchView searchView;
+    private SearchView searchView;
     private static SearchView.OnQueryTextListener searchViewListener;
-    private static RecyclerViewAdapter adapter;
+    private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private SwipeRefreshLayout swipe;
     private static List<ContactItem> data = new ArrayList<>();
 
-    private static MainFragment fragment;
-
     public static MainFragment getInstance(){
         Bundle args = new Bundle();
-        fragment = new MainFragment();
+        MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,11 +72,11 @@ public class MainFragment extends Fragment {
         swipe = view.findViewById(R.id.swipe_refresh);
     }
 
-    private static void initSearchView(){
+    private void initSearchView(){
         searchView.setOnQueryTextListener(initSearchViewListener(searchViewListener));
     }
 
-    private static SearchView.OnQueryTextListener initSearchViewListener(SearchView.OnQueryTextListener listener){
+    private SearchView.OnQueryTextListener initSearchViewListener(SearchView.OnQueryTextListener listener){
         listener = new SearchView.OnQueryTextListener() {
 
             @Override
