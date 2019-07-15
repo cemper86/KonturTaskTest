@@ -2,7 +2,6 @@ package ru.stairenx.konturtasktest.item;
 
 public class ContactItem {
 
-    Long _id;
     String id;
     String name;
     String phone;
@@ -49,17 +48,4 @@ public class ContactItem {
         return educationPeriod;
     }
 
-    @Override
-    public String toString() {
-        return "ContactItem{" +
-                "_id=" + _id +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", height=" + height +
-                ", biography='" + biography + '\'' +
-                ", temperament=" + temperament +
-                ", educationPeriod=" + educationPeriod +
-                '}';
-    }
 }
