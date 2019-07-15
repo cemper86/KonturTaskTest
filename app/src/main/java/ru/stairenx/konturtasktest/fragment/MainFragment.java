@@ -54,7 +54,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
         initView(view);
-        getDataFromServer(view);
+        initRecyclerView();
+        checkData(view);
         swipeUpdate(view);
         initSearchView();
         return view;
@@ -98,6 +99,23 @@ public class MainFragment extends Fragment {
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
+
+    private void setVisualFinishUpdate(){
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void initRecyclerView(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
+        adapter = new RecyclerViewAdapter(getContext().getApplicationContext(), data, new RecyclerViewAdapter.ClickCard() {
+            @Override
+            public void onClicked(View view, ContactItem item) {
+                loadFragment(ContactFragment.getInstance(item));
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
     private void getDataFromServer(final View view) {
             setVisualUpdate();
             ConnectServer.query(getContext().getApplicationContext(), new ConnectServer.ResultResponse() {
@@ -112,22 +130,13 @@ public class MainFragment extends Fragment {
                     } catch (JSONException e) {
                         e.getStackTrace();
                     }
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
-                    adapter = new RecyclerViewAdapter(getContext().getApplicationContext(), data, new RecyclerViewAdapter.ClickCard() {
-                        @Override
-                        public void onClicked(View view, ContactItem item) {
-                            loadFragment(ContactFragment.getInstance(item));
-                        }
-                    });
-                    recyclerView.setAdapter(adapter);
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
+                    setVisualFinishUpdate();
                 }
 
                 @Override
                 public void onFail() {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    setVisualFinishUpdate();
                     Snackbar.make(view, "Нет подключения к сети", Snackbar.LENGTH_LONG).show();
                 }
             });
@@ -139,8 +148,13 @@ public class MainFragment extends Fragment {
             public void onRefresh() {
                 getDataFromServer(view);
                 swipe.setRefreshing(false);
+                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void checkData(View view){
+        getDataFromServer(view);
     }
 
     private void loadFragment(Fragment fragment){
