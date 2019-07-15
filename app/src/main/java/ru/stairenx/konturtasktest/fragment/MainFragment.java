@@ -153,6 +153,7 @@ public class MainFragment extends Fragment {
     }
 
     private void checkData(View view){
+        /* space for check local database, but none */
         getDataFromServer(view);
     }
 
