@@ -67,6 +67,7 @@ public class MainFragment extends Fragment {
 
     private void initView(View view){
         searchView = view.findViewById(R.id.search_view);
+        searchView.setFocusable(false);
         recyclerView = view.findViewById(R.id.recycler_view);
         progressBar = view.findViewById(R.id.progress_bar);
         swipe = view.findViewById(R.id.swipe_refresh);
