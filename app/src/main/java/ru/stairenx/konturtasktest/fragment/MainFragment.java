@@ -117,12 +117,12 @@ public class MainFragment extends Fragment {
     }
 
     private void getDataFromServer(final View view) {
-            setVisualUpdate();
-            ConnectServer.query(getContext().getApplicationContext(), new ConnectServer.ResultResponse() {
+        setVisualUpdate();
+        data.clear();
+        ConnectServer.query(getContext().getApplicationContext(), new ConnectServer.ResultResponse() {
 
                 @Override
                 public void onSuccess(JSONArray jsonArray) {
-                    data.clear();
                     try {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             data.add(ParserJSON.parserJSONObject(jsonArray.getJSONObject(i)));

@@ -6,8 +6,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.Executors;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -39,10 +40,10 @@ public class ConnectServer {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         };
-        String[] links = {LinksAPI.getResourse1(),LinksAPI.getResourse2(),LinksAPI.getResourse3()};
-        for(int i=0;i<links.length;i++){
-            client.get(context,links[i],responseHandler);
-        }
+        client.setThreadPool(Executors.newSingleThreadExecutor());
+        client.get(context,LinksAPI.getResourse1(),responseHandler);
+        client.get(context,LinksAPI.getResourse2(),responseHandler);
+        client.get(context,LinksAPI.getResourse3(),responseHandler);
     }
 
     public interface ResultResponse{
